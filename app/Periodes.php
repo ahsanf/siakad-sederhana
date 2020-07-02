@@ -15,6 +15,6 @@ class Periodes extends Model
     ];
 
     public function studies(){
-        return $this->belongsTo('App\Studies', 'periode_id' , 'id');
+        return $this->hasMany('App\Studies', 'id' , 'periode_id');
     }
 }

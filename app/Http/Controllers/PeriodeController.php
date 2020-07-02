@@ -49,7 +49,7 @@ class PeriodeController extends Controller
 
          Periodes::create([
              'year' => $request->year,
-             'semseter' => $request->semester,
+             'semester' => $request->semester,
              'register_start' => $request->register_start,
              'register_end' => $request->register_end
          ]);
@@ -77,7 +77,7 @@ class PeriodeController extends Controller
     {
         //
         $periode = Periodes::findOrFail($id);
-        return view('periodes.edit', [$id]);
+        return view('periodes.edit', compact('periode'));
     }
 
     /**
@@ -96,7 +96,7 @@ class PeriodeController extends Controller
         $periode->register_start = $request->register_start;
         $periode->register_end = $request->register_end;
         $periode->save();
-        return back();
+        return redirect()->route('periodes.index');
 
     }
 
@@ -111,6 +111,6 @@ class PeriodeController extends Controller
         //
         $periode = Periodes::findOrFail($id);
         $periode->delete();
-        return back();
+        return redirect()->route('periodes.index');
     }
 }

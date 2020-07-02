@@ -7,6 +7,7 @@ use App\Periodes;
 use App\Studies;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudiesController extends Controller
@@ -16,15 +17,20 @@ class StudiesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        //
-
-        $user = User::findOrfail($id);
-        $studies = Studies::all();
+        if (Auth::user()->role == 'dosen') {
+            $studies = Studies::all();
+        } else if (Auth::user()->role == 'mahasiswa'){
+            $studies = Studies::where('user_id' ,'=', Auth::user()->id)->get();
+        } else {
+            $studies = Studies::all();
+        }
+       
+        $course = Courses::all();
         $periode = Periodes::all();
-        $couurse = Courses::all();
-        return view('studies.index',compact('studies','periode', 'course','user'));
+    
+        return view('studies.index', compact('studies','course','periode'));
     }
 
     /**
@@ -32,15 +38,15 @@ class StudiesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
-        $user = User::findOrFail($id);
+        $user = User::all();
         $studies = Studies::all();
         $periode = Periodes::all();
         $course = Courses::all();
-
         return view('studies.create', compact('user', 'studies', 'periode', 'course'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -48,21 +54,29 @@ class StudiesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'course_id' => 'required',
             'periode_id' => 'required',
-
         ]);
 
-        $user_id = User::findOrFail($id);
-        Studies::create([
-            'user_id' => $user_id,
-            'course_id' => $request->course_id,
-            'periode_id' =>$request->periode_id
-        ]);
-        return back();
+        if (Auth::user()->role == 'dosen') {
+            Studies::create([
+                'user_id' => $request->user_id,
+                'course_id' => $request->course_id,
+                'periode_id' => $request->periode_id,
+                'grade' => $request->grade
+            ]);
+        } else {
+            Studies::create([
+                'user_id' => Auth::user()->id,
+                'course_id' => $request->course_id,
+                'periode_id' => $request->periode_id
+            ]);
+        }
+        
+        return redirect()->route('studies.index');
     }
 
     /**
@@ -82,13 +96,13 @@ class StudiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $user_id)
+    public function edit($id)
     {
         $studies = Studies::findOrFail($id);
-        $user = User::findOrFail($user_id);
+        $user = User::all();
         $periode = Periodes::all();
         $course = Courses::all();
-        return view('studies.edit', compact('user', 'studies', 'periode', 'course'));
+        return view('studies.edit', compact('studies', 'user','periode', 'course'));
     }
 
     /**
@@ -105,6 +119,7 @@ class StudiesController extends Controller
         $studies->course_id = $request->course_id;
         $studies->periode_id = $request->periode_id;
         $studies->course_id = $request->course_id;
+        $studies->grade = $request->grade;
         $studies->save();
         return redirect()->route('studies.index', [$id]);
     }
@@ -119,6 +134,6 @@ class StudiesController extends Controller
     {
         $studies = Studies::findOrFail($id);
         $studies->delete();
-        return redirect()->route('studies.index');;
+        return redirect()->route('studies.index');
     }
 }

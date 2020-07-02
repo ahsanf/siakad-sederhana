@@ -8,10 +8,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'SIAKAD') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+   
 </head>
 <body>
     <div id="app">
@@ -29,7 +31,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                       SIAKAD
                     </a>
                 </div>
 
@@ -53,6 +55,14 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="{{ route('courses.index') }}">Courses</a>
+                                        @if (Auth::user()->role == 'mahasiswa')
+                                        <a href="{{ route('studies.index') }}">Studies</a>
+                                        @elseif (Auth::user()->role == 'dosen')
+                                        <a href="{{ route('studies.index') }}">Studies</a>
+                                        @endif
+                                        <a href="{{ route('credits.index') }}">Credit</a>
+                                        <a href="{{ route('periodes.index') }}">Periodes</a>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -76,5 +86,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>

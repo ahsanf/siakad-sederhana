@@ -15,13 +15,13 @@ class CreateStudiesTable extends Migration
     {
         Schema::create('studies', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('periode_id')->unsigned();
-            $table->integer('course_id')->unsigned();
-            $table->float('grade');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('periode_id')->unsigned()->nullable();
+            $table->integer('course_id')->unsigned()->nullable();
+            $table->float('grade')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id', 'periode_id', 'course_id')->references('id')->on('users', 'periodes', 'courses')
+            $table->foreign('user_id', 'periode_id', 'course_id')->references('id','id','id')->on('users', 'periodes', 'courses')
                   ->onUpdate('cascade','cascade','cascade')->onDelete('cascade','cascade','cascade');
            
         });

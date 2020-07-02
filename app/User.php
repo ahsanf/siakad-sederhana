@@ -32,7 +32,7 @@ class User extends Authenticatable
     }
 
     public function studies(){
-        $this->belongsTo('App\Studies', 'user_id', 'id');
+        $this->hasMany('App\Studies', 'id', 'user_id');
     }
 
     public function credits(){

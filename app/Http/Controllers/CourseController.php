@@ -15,7 +15,7 @@ class CourseController extends Controller
     public function index()
     {
         //
-        $course = Courses::orderBy('name')->get();
+        $course = Courses::all();
         return view('courses.index', compact('course'));
     }
 
@@ -46,7 +46,7 @@ class CourseController extends Controller
             'name' => 'required',
             'credit'=> 'required'
         ]);
- //
+
        Courses::create([
            'name' =>$request->name,
            'credit'=>$request->credit
@@ -76,7 +76,7 @@ class CourseController extends Controller
     {
         //
         $course = Courses::findOrFail($id);
-        return view('courses.edit', [$id]);
+        return view('courses.edit', compact('course'));
     }
 
     /**
@@ -93,7 +93,7 @@ class CourseController extends Controller
         $course->name = $request->name;
         $course->credit = $request->credit;
         $course->save();
-        return back();
+        return redirect()->route('courses.index');
     }
 
     /**
@@ -107,7 +107,7 @@ class CourseController extends Controller
         //
         $course = Courses::findOrFail($id);
         $course->delete();
-        return redirect()->route('users.show', [ $id ]);
+        return redirect()->route('courses.index');
 
     }
 }

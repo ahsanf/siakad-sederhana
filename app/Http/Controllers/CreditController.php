@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Credits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CreditController extends Controller
 {
@@ -44,7 +45,8 @@ class CreditController extends Controller
         ]);
  //
        Credits::create([
-           'credit'=>$request->credit
+           'credit'=>$request->credit,
+           'user_id' => Auth::user()->id
        ]);
         return redirect()->route('credits.index');
     }

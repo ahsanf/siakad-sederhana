@@ -12,33 +12,41 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+
+// Route::get('/home', function () {
+//     return view('courses.index');
+// });
 
 Auth::routes();
 
-Route::resource('users', 'UserController', [
-    'only' => [ 'index', 'edit', 'update','store', 'destroy' ],
-    'middleware' => ['auth']
-]);
+// Route::resource('users', 'UserController', [
+//     'only' => [ 'index', 'edit', 'update','store', 'destroy' ],
+//     'middleware' => ['auth']
+// ]);
 
-Route::resource('coures', 'CourseController', [
-    'only' => [ 'index', 'edit', 'update','store', 'destroy'],
+Route::resource('courses', 'CourseController', [
+    'only' => [ 'index', 'create', 'edit', 'update','store', 'destroy'],
     'middleware' => ['auth']
 ]);
 
 Route::resource('credits', 'CreditController', [
-    'only' => [ 'index', 'edit', 'update','store', 'destroy' ],
+    'only' => [ 'index', 'create','edit', 'update','store', 'destroy' ],
     'middleware' => ['auth']
 ]);
 
-Route::resource('studies', 'StuidesController', [
-    'only' => [ 'index', 'edit', 'update','store', 'destroy' ],
+// Route::resource('studies', 'StudiesController', [
+//     'only' => [ 'index', 'create','edit', 'update','store', 'destroy' ],
+//     'middleware' => ['auth']
+// ]);
+
+Route::resource('periodes', 'PeriodeController', [
+    'only' => [ 'index', 'create', 'edit', 'update','store', 'destroy'],
     'middleware' => ['auth']
 ]);
 
-
-// Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('/mahasiswa', 'StudentController@index')->name('mahasiswa')->middleware('mahasiswa');
-// Route::get('/admin', 'AdminController@index')->name('admin')->middleware('admin');
-// Route::get('/dosen', 'LecturerController@index')->name('dosen')->middleware('dosen');
+Route::resource('studies', 'StudiesController', [
+    'only' => [ 'index', 'create', 'edit', 'update', 'store', 'destroy'],
+    'middleware' => ['auth']
+]);

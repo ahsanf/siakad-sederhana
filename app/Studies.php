@@ -15,14 +15,14 @@ class Studies extends Model
     ];
 
     public function user(){
-        return $this->hasMany('App\User', 'user_id', 'id');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     public function periode(){
-        return $this->hasMany('App\Periodes', 'periode_id', 'id');
+        return $this->belongsTo('App\Periodes', 'periode_id', 'id');
     }
 
     public function course(){
-        return $this->hasMany('App\Courses', 'course_id', 'id');
+        return $this->belongsTo('App\Courses', 'course_id', 'id');
     }
 }

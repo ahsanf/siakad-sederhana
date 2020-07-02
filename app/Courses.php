@@ -9,7 +9,7 @@ class Courses extends Model
     //
     protected $table = 'courses';
 
-    protected $fillabe = [
+    protected $fillable = [
         'user_id',
         'name',
         'credit'
@@ -21,6 +21,6 @@ class Courses extends Model
 
     public function studies()
     {
-        return $this->belongsTo('App\Studies', 'user_id', 'id');
+        return $this->hasMany('App\Studies', 'id', 'course_id');
     }
 }
