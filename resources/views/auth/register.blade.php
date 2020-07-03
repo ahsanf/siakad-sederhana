@@ -24,7 +24,7 @@
                                 @endif
                             </div>
                         </div>
-
+                        
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username" class="col-md-4 control-label">Username</label>
 
@@ -74,6 +74,17 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="input-role" class="col-md-4 control-label">Choose Role</label>
+
+                            <div class="col-md-6">
+                                <select name="role" class="col-md-6 form-control">
+                                    <option class="dropdown-item" type="submit" name="role" value="mahasiswa">Student</option>
+                                    <option class="dropdown-item" type="submit" name="role" value="dosen">Lecturer</option>
+                                    <option class="dropdown-item" type="submit" name="role" value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
